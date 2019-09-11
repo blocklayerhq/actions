@@ -21,6 +21,11 @@ inputs:
     description: "Whether or not to comment on the PR"
     required: false
     default: "true"
+outputs:
+  pipeline:
+    description: The name of the pipeline
+  job_id:
+    description: The Job ID
 runs:
   using: "docker"
   image: Dockerfile

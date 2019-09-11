@@ -16,6 +16,8 @@ PR_NUMBER="$(echo $PR_DATA | jq -r .number)"
 PIPELINE=$(echo "${INPUT_PIPELINE}" | sed -e "s=\${PR_NUMBER}=$PR_NUMBER=g")
 INPUTS=$(echo "${INPUT_INPUTS}" | sed -e "s=\${PR_NUMBER}=$PR_NUMBER=g")
 
+echo ::set-output name=pipeline::$PIPELINE
+
 # Set up auth
 export GITHUB_TOKEN="${INPUT_REPO_TOKEN}"
 export BL_API_KEY="${INPUT_API_KEY}"
@@ -31,6 +33,7 @@ SUCCESS=${PIPESTATUS[0]}
 
 # Retrieve the job and wait for the pipeline to complete
 JOB_ID=$(cat /tmp/output | sed -n -e 's/^success Submitted job \(.*\) to pipeline.*$/\1/p')
+echo ::set-output name=job_id::$JOB_ID
 bl line status -f "$PIPELINE" "$JOB_ID"
 
 # If we're not in a pull request or commenting is disabled, stop here
