@@ -1,0 +1,26 @@
+name: "Blocklayer Run"
+description: "Run a Pipeline on Blocklayer"
+author: "Blocklayer"
+inputs:
+  repo_token:
+    description: "The GITHUB_TOKEN secret"
+    required: true
+  api_key:
+    description: "The BL_API_KEY secret"
+    required: true
+  inputs:
+    description: "List of input overrides"
+    required: false
+  pipeline:
+    description: "Name of the Pipeline to run"
+    required: true
+  clone:
+    description: "If set, clone this Pipeline"
+    required: false
+  comment:
+    description: "Whether or not to comment on the PR"
+    required: false
+    default: "true"
+runs:
+  using: "docker"
+  image: Dockerfile
