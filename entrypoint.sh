@@ -23,7 +23,7 @@ export GITHUB_TOKEN="${INPUT_REPO_TOKEN}"
 export BL_API_KEY="${INPUT_API_KEY}"
 
 if [ -n "$INPUT_WORKSPACE" ]; then
-	bl workspace use "$INPUT_WORKSPACE" || true
+	bl workspace use "$INPUT_WORKSPACE"
 fi
 
 if [ -n "$INPUT_CLONE" ]; then
