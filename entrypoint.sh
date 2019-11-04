@@ -22,6 +22,10 @@ echo ::set-output name=pipeline::$PIPELINE
 export GITHUB_TOKEN="${INPUT_REPO_TOKEN}"
 export BL_API_KEY="${INPUT_API_KEY}"
 
+if [ -n "$INPUT_WORKSPACE" ]; then
+	bl workspace use "$INPUT_WORKSPACE" || true
+fi
+
 if [ -n "$INPUT_CLONE" ]; then
 	bl line clone "$INPUT_CLONE" $PIPELINE || true
 fi

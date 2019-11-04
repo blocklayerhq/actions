@@ -17,6 +17,9 @@ inputs:
   clone:
     description: "If set, clone this Pipeline"
     required: false
+  workspace:
+    description: "If set, change the current Workspace"
+    required: false
   comment:
     description: "Whether or not to comment on the PR"
     required: false
