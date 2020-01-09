@@ -39,6 +39,7 @@ SUCCESS=${PIPESTATUS[0]}
 JOB_ID=$(cat /tmp/output | sed -n -e 's/^success Submitted job \(.*\) to pipeline.*$/\1/p')
 echo ::set-output name=job_id::$JOB_ID
 bl line status -f "$PIPELINE" "$JOB_ID"
+bl line logs "$PIPELINE" "$JOB_ID"
 
 # If we're not in a pull request or commenting is disabled, stop here
 if [ "$PR_DATA" = "null" ] || [ "$INPUT_COMMENT" = "false" ]; then
