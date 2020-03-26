@@ -5,30 +5,18 @@ inputs:
   repo_token:
     description: "The GITHUB_TOKEN secret"
     required: true
-  api_key:
+  bl_api_key:
     description: "The BL_API_KEY secret"
     required: true
-  inputs:
-    description: "List of input overrides"
-    required: false
-  pipeline:
-    description: "Name of the Pipeline to run"
+  bl_domain:
+    description: "Blocklayer domain to push to"
     required: true
-  clone:
-    description: "If set, clone this Pipeline"
-    required: false
-  workspace:
-    description: "If set, change the current Workspace"
-    required: false
-  comment:
-    description: "Whether or not to comment on the PR"
-    required: false
-    default: "true"
+  bl_target:
+    description: "Blocklayer target key to push to"
+    required: true
 outputs:
-  pipeline:
-    description: The name of the pipeline
-  job_id:
-    description: The Job ID
+  change_id:
+    description: The Blocklayer ChangeID
 runs:
   using: "docker"
   image: Dockerfile
