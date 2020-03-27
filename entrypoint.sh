@@ -13,8 +13,6 @@ env
 PR_DATA=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request)
 PR_NUMBER="$(echo $PR_DATA | jq -r .number)"
 
-echo ::set-output name=pipeline::$PIPELINE
-
 # Set up auth
 export GITHUB_TOKEN="${INPUT_REPO_TOKEN}"
 export BL_API_KEY="${INPUT_BL_API_KEY}"
