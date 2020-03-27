@@ -28,12 +28,12 @@ bl draft init pr-push
 bl push --draft pr-push \
 	"${INPUT_BL_DOMAIN}" \
 	--kind text \
-	--target "${INPUT_BL_TARGET}.pr.status" \
+	--target "${INPUT_BL_TARGET}.pr."$PR_NUMBER".status" \
 	"open"
 bl push --draft pr-push \
 	"${INPUT_BL_DOMAIN}" \
 	--kind directory \
-	--target "${INPUT_BL_TARGET}.pr.branch.tip.checkout" \
+	--target "${INPUT_BL_TARGET}.pr."$PR_NUMBER".branch.tip.checkout" \
 	.
 bl draft apply pr-push
 
