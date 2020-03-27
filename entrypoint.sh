@@ -27,12 +27,12 @@ PAYLOAD=$(
 bl draft init pr-push
 bl push --draft pr-push \
 	"${INPUT_BL_DOMAIN}" \
-	--type text \
+	--kind text \
 	--target "${INPUT_BL_TARGET}.pr.status" \
 	"open"
 bl push --draft pr-push \
 	"${INPUT_BL_DOMAIN}" \
-	--type directory \
+	--kind directory \
 	--target "${INPUT_BL_TARGET}.pr.branch.tip.checkout" \
 	.
 bl draft apply pr-push
