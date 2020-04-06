@@ -2,42 +2,27 @@
 
 set -eu -o pipefail
 
-env
-
 [ -z "${INPUT_REPO_TOKEN:-}" ] && (echo "repo_token input missing"; exit 1)
 [ -z "${INPUT_BL_API_KEY:-}" ] && (echo "bl_api_key input missing"; exit 1)
 [ -z "${INPUT_BL_DOMAIN:-}" ] && (echo "bl_domain input missing"; exit 1)
 [ -z "${INPUT_BL_TARGET:-}" ] && (echo "bl_target input missing"; exit 1)
 
-# Grab PR info
-PR_DATA=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request)
-PR_NUMBER="$(echo $PR_DATA | jq -r .number)"
+# Print full environment for debugging
+echo "Github action environment:"
+echo "----- BEGIN ENVIRONMENT -----"
+env
+echo "----- END ENVIRONMENT -----"
 
-# Set up auth
-export GITHUB_TOKEN="${INPUT_REPO_TOKEN}"
-export BL_API_KEY="${INPUT_BL_API_KEY}"
+# Print full event contents for debugging
+echo "Received raw event:"
+echo "---- BEGIN EVENT -----"
+cat "$GITHUB_EVENT_PATH"
+echo "---- END EVENT ------"
 
+# Push the entire Github event to the Blocklayer domain + target
 
-PAYLOAD=$(
-	jq \
-		--arg pr "$PR_NUMBER" \
-		'setpath(["pr", $pr];{"status": "open"})'
-)
-
-bl draft init pr-push
-bl push --draft pr-push \
-	"${INPUT_BL_DOMAIN}" \
-	--kind text \
-	--target "${INPUT_BL_TARGET}.pr."$PR_NUMBER".status" \
-	"open"
-bl push --draft pr-push \
-	"${INPUT_BL_DOMAIN}" \
-	--kind directory \
-	--target "${INPUT_BL_TARGET}.pr."$PR_NUMBER".branch.tip.checkout" \
-	.
-bl draft apply pr-push
-
-# If we're not in a pull request, stop here
-if [ "$PR_DATA" = "null" ]; then
-	exit 0
-fi
+bl push \
+	--kind json \
+	"$INPUT_BL_DOMAIN" \
+	--target "$INPUT_BL_TARGET" \
+	"$(cat $GITHUB_EVENT_PATH)"
