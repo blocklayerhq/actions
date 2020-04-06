@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -x
 set -eu -o pipefail
 
 [ -z "${INPUT_REPO_TOKEN:-}" ] && (echo "repo_token input missing"; exit 1)
@@ -24,6 +23,7 @@ echo "---- END EVENT ------"
 
 
 echo "---- pushing event to blocklayer ----"
+export BL_API_KEY="${INPUT_BL_API_KEY}"
 bl push \
 	--kind json \
 	"$INPUT_BL_DOMAIN" \
