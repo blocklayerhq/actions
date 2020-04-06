@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -x
 set -eu -o pipefail
 
 [ -z "${INPUT_REPO_TOKEN:-}" ] && (echo "repo_token input missing"; exit 1)
@@ -21,8 +22,12 @@ echo "---- END EVENT ------"
 
 # Push the entire Github event to the Blocklayer domain + target
 
+
+echo "---- pushing event to blocklayer ----"
 bl push \
 	--kind json \
 	"$INPUT_BL_DOMAIN" \
 	--target "$INPUT_BL_TARGET" \
 	"$(cat $GITHUB_EVENT_PATH)"
+echo "---- done ----"
+exit 0
