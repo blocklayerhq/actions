@@ -2,5 +2,5 @@ FROM blocklayer/bl-dev:alpha-3
 
 RUN apk add -U --no-cache bash curl jq
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY ingest.sh /ingest.sh
+ENTRYPOINT ["/ingest.sh"]
