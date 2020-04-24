@@ -24,10 +24,14 @@ echo "---- END EVENT ------"
 
 echo "---- pushing event to blocklayer ----"
 export BL_API_KEY="${INPUT_BL_API_KEY}"
-bl push \
+
+# Merge the event name with the event payload
+EVENT="$(jq -r --arg name "$GITHUB_EVENT_NAME" '. + {name: $name}' < "$GITHUB_EVENT_PATH")"
+
+bl push -d \
 	--kind json \
 	"$INPUT_BL_DOMAIN" \
 	--target "$INPUT_BL_TARGET" \
-	"$(cat $GITHUB_EVENT_PATH)"
+	"$EVENT"
 echo "---- done ----"
 exit 0
