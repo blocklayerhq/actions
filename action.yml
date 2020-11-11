@@ -1,0 +1,32 @@
+name: "Blocklayer Run"
+description: "Run a Pipeline on Blocklayer"
+author: "Blocklayer"
+inputs:
+  repo_token:
+    description: "The GITHUB_TOKEN secret"
+    required: true
+  api_key:
+    description: "The BL_API_KEY secret"
+    required: true
+  workspace:
+    description: "If set, change the current Workspace"
+    required: false
+  stack:
+    description: "Name of the Stack to use"
+    required: true
+  env:
+    description: "Name of the Env to use"
+    required: true
+  comment:
+    description: "Whether or not to comment on the PR"
+    required: false
+    default: "true"
+  sources:
+    description: "List of components sources (eg. api=./source/api web=./source/frontend)"
+    required: false
+outputs:
+  dashboard_url:
+    description: BL URL to inspect the Deploy
+runs:
+  using: "docker"
+  image: Dockerfile

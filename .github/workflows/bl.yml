@@ -1,0 +1,17 @@
+name: Blocklayer
+
+on: pull_request
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy with Blocklayer
+        uses: ./
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          api_key: "${{ secrets.BL_API_KEY }}"
+          stack: "acme"
+          env: "example-action-pr-${PR_NUMBER}"
+          sources: "api=./source"
