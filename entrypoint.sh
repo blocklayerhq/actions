@@ -27,6 +27,9 @@ if [ -n "$INPUT_WORKSPACE" ]; then
 	workspace="$INPUT_WORKSPACE"
 fi
 
+# Create env if not exist
+bl --stack "${INPUT_STACK}" env create "${ENV_NAME}" || true
+
 # Select right stack / env
 bl use "${INPUT_STACK}" "${ENV_NAME}"
 
