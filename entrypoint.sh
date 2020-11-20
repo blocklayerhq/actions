@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu -o pipefail
+set -exu -o pipefail
 
 env
 
@@ -34,7 +34,7 @@ bl --stack "${INPUT_STACK}" env create "${ENV_NAME}" || true
 bl use "${INPUT_STACK}" "${ENV_NAME}"
 
 # Push code in detached state
-bl push -d  ${SOURCES[@]}
+bl push -d  ${INPUT_SOURCES[@]}
 
 # Retrieve the job and wait for the pipeline to complete
 workspace_id=$(bl workspace list | grep "$workspace" | awk '{ print $2; }')
