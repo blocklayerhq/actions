@@ -8,6 +8,7 @@ env
 [ -z "${INPUT_ENV}" ] && (echo "env input missing"; exit 1)
 [ -z "${INPUT_REPO_TOKEN}" ] && (echo "repo-token input missing"; exit 1)
 [ -z "${INPUT_API_KEY}" ] && (echo "api-key input missing"; exit 1)
+[ -z "${INPUT_SOURCES}" ] && (echo "sources input missing"; exit 1)
 
 # Grab PR info
 PR_DATA=$(cat ${GITHUB_EVENT_PATH} | jq -r .pull_request)
@@ -19,7 +20,6 @@ export BL_API_KEY="${INPUT_API_KEY}"
 
 # Templatize the Env name and sources
 ENV_NAME=$(echo "${INPUT_ENV}" | sed -e "s=\${PR_NUMBER}=$PR_NUMBER=g")
-SOURCES=$(echo "${INPUT_SOURCES}" | sed -e "s=\${PR_NUMBER}=$PR_NUMBER=g")
 
 workspace="personal"
 if [ -n "$INPUT_WORKSPACE" ]; then
@@ -33,14 +33,8 @@ bl --stack "${INPUT_STACK}" env create "${ENV_NAME}" || true
 # Select right stack / env
 bl use "${INPUT_STACK}" "${ENV_NAME}"
 
-# Run the job in detached state
-for src in ${SOURCES[@]}; do
-	component="$(echo $src | cut -d'=' -f1)"
-	localpath="$(echo $src | cut -d'=' -f2)"
-	bl push -d "$component" "$localpath"
-done
-
-bl workspace list | grep $workspace
+# Push code in detached state
+bl push -d  ${SOURCES[@]}
 
 # Retrieve the job and wait for the pipeline to complete
 workspace_id=$(bl workspace list | grep "$workspace" | awk '{ print $2; }')

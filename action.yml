@@ -23,7 +23,7 @@ inputs:
     default: "true"
   sources:
     description: "List of components sources (eg. api=./source/api web=./source/frontend)"
-    required: false
+    required: true
 outputs:
   dashboard_url:
     description: BL URL to inspect the Deploy
