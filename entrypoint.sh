@@ -38,7 +38,7 @@ bl push -d  ${INPUT_SOURCES[@]}
 
 # Retrieve the job and wait for the pipeline to complete
 workspace_id=$(bl workspace list | grep "$workspace" | awk '{ print $2; }')
-dashboard_url="https://beta.app.blocklayerhq.com/w/${workspace_id}/stacks/${INPUT_STACK}/envs/${INPUT_ENV}"
+dashboard_url="https://beta.app.blocklayerhq.com/w/${workspace_id}/stacks/${INPUT_STACK}/envs/${ENV_NAME}"
 echo ::set-output name=dashboard_url::"$dashboard_url"
 
 # If we're not in a pull request or commenting is disabled, stop here
